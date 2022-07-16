@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:promodoro/services/timer_service.dart';
 import 'package:promodoro/utils/utils.dart';
 import 'package:promodoro/widgets/progrees_widget.dart';
 import 'package:promodoro/widgets/time_controller.dart';
 import 'package:promodoro/widgets/time_options.dart';
 import 'package:promodoro/widgets/timer_card.dart';
+import 'package:provider/provider.dart';
 
 class PomodoroScreen extends StatelessWidget {
   const PomodoroScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TimerService>(context);
     return Scaffold(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: renderColor(provider.currentState),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.redAccent,
+        backgroundColor: renderColor(provider.currentState),
         title: Text(
           "NepPomodoro",
           style: textStyle(20, Colors.white, FontWeight.w700),
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => provider.reset(),
             icon: const Icon(
               Icons.refresh,
               color: Colors.white,

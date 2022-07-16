@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:promodoro/services/timer_service.dart';
 import 'package:promodoro/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class TimerCard extends StatelessWidget {
   const TimerCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TimerService>(context);
+    final seconds = provider.currentDuration % 60;
     return Column(
       children: [
         Text(
-          "FOCUS",
+          provider.currentState,
           style: textStyle(30, Colors.white, FontWeight.w700),
         ),
         SizedBox(
@@ -34,8 +38,9 @@ class TimerCard extends StatelessWidget {
                   ]),
               child: Center(
                 child: Text(
-                  "25",
-                  style: textStyle(70, Colors.redAccent, FontWeight.bold),
+                  (provider.currentDuration ~/ 60).toString(),
+                  style: textStyle(
+                      70, renderColor(provider.currentState), FontWeight.bold),
                 ),
               ),
             ),
@@ -65,8 +70,11 @@ class TimerCard extends StatelessWidget {
                   ]),
               child: Center(
                 child: Text(
-                  "00",
-                  style: textStyle(70, Colors.redAccent, FontWeight.bold),
+                  seconds == 0
+                      ? "${seconds.round()}0"
+                      : seconds.round().toString(),
+                  style: textStyle(
+                      70, renderColor(provider.currentState), FontWeight.bold),
                 ),
               ),
             ),
